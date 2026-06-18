@@ -4,6 +4,11 @@ namespace avaliacao_m08_gabriel_charles_karina_lucas.Repositorios
 {
     public class RepositorioLivro
     {
+        public List<Livro> BuscarPorAutor(string autor)
+        {
+            return livros
+            .Where(l => l.Autor.Equals(autor, StringComparison.OrdinalIgnoreCase))
+            .ToList();
 
         public List<Livro> Livros = new List<Livro>
         {
