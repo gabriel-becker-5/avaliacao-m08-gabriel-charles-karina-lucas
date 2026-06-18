@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using avaliacao_m08_gabriel_charles_karina_lucas.Modelos;
 
 namespace avaliacao_m08_gabriel_charles_karina_lucas.Interfaces
 {
-    internal interface IRepositorioLivro
+    interface IRepositorioLivro
     {
+        void Adicionar(Livro livro);
+
+        Livro BuscarPorId(int id);
+
+        List<Livro> ListarTodos();
+
+        Livro BuscarPorAutor(string autor);
     }
 }
