@@ -4,16 +4,8 @@ namespace avaliacao_m08_gabriel_charles_karina_lucas.Repositorios
 {
     public class RepositorioLivro
     {
-        public List<Livro> BuscarPorAutor(string autor)
-        {
-            return livros
-            .Where(l => l.Autor.Equals(autor, StringComparison.OrdinalIgnoreCase))
-            .ToList();
-
         public List<Livro> Livros = new List<Livro>
         {
-
-
         };
 
         public void Adicionar(Livro livro)
@@ -29,14 +21,35 @@ namespace avaliacao_m08_gabriel_charles_karina_lucas.Repositorios
 
         public List<Livro> ListarTodos()
         {
-            List<Livro> livrosOrdenados = Livros.OrderByDescending(l => l.Titulo);
+            List<Livro> livrosOrdenados = Livros.OrderByDescending(l => l.Titulo).ToList();
             return livrosOrdenados;
         }
 
-        public Livro BuscarPorAutor(string autor);
+        public List<Livro> BuscarPorAutor(string autor)
         {
-            var livroEncontrado = Livros.FirstOrDefault(l => l.Autor == autor);
-            return livroEncontrado;
+            return Livros
+            .Where(l => l.Autor.Contains(autor, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        }
+
+        public async Task ListarDisponiveisAsync()
+        {
+            await Task.Delay(500);
+
+            List<Livro> livrosDisponiveis = Livros.Where(l => l.Disponivel == true).OrderByDescending(l => l.Titulo).ToList();
+
+            if (livrosDisponiveis.Count == 0)
+            {
+                Console.WriteLine("Nenhum livro disponível no momento.");
+            }
+            else
+            {
+                Console.WriteLine("\nLivros Prontos para Empréstimo:");
+                foreach (Livro livro in livrosDisponiveis)
+                {
+                    Console.WriteLine($"ID: {livro.Id} | {livro.Titulo} - Autor: {livro.Autor} - Publicação: {livro.Ano}");
+                }
+            }
         }
     }
 }
