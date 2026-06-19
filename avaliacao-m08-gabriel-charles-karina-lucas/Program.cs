@@ -1,20 +1,22 @@
 ﻿using avaliacao_m08_gabriel_charles_karina_lucas.Excecoes;
 using avaliacao_m08_gabriel_charles_karina_lucas.Repositorios;
 using avaliacao_m08_gabriel_charles_karina_lucas.Modelos;
+using avaliacao_m08_gabriel_charles_karina_lucas.Servicos;
 
 class Program
 {
     static async Task Main(string[] args)
     {
+        BibliotecaApiService _bibliotecaApiService = new BibliotecaApiService();
         RepositorioLivro _repositorioLivro = new RepositorioLivro();
 
-        _repositorioLivro.CarregarAcervoAoIniciar();
+        //_repositorioLivro.CarregarAcervoAoIniciar();
 
         bool rodando = true;
 
         while (rodando)
         {
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("========================================");
             Console.WriteLine("    SISTEMA DE GERENCIAMENTO DE LIVROS  ");
             Console.WriteLine("========================================");
@@ -33,17 +35,26 @@ class Program
             switch (opcao)
             {
                 case "1":
-                    Console.Clear();
+                    //Console.Clear();
                     Console.WriteLine("--- Listar Todos os Livros Cadastrados ---");
                     List<Livro> livrosCadastrados = _repositorioLivro.ListarTodos();
-                    foreach (Livro livro in livrosCadastrados)
+
+                    if (livrosCadastrados.Count == 0)
                     {
-                        livro.ExibirInformacoes();
+                        Console.WriteLine("Não há livros cadastrados no momento.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nLivros Cadastrados:");
+                        foreach (Livro livro in livrosCadastrados)
+                        {
+                            livro.ExibirInformacoes();
+                        }
                     }
                     break;
 
                 case "2":
-                    Console.Clear();
+                    //Console.Clear();
                     Console.WriteLine("--- Buscar Livro por ID ---");
                     Console.Write("Digite o ID: ");
 
@@ -51,8 +62,14 @@ class Program
                     {
                         try
                         {
-                            var livro = _repositorioLivro.BuscarPorId(id);
-                            Console.WriteLine($"\n{livro.Titulo} - {livro.Autor}");
+                            Livro livro = _repositorioLivro.BuscarPorId(id);
+
+                            if (livro == null)
+                            {
+                                throw new LivroNaoEncontradoException();
+                            }
+
+                            livro.ExibirInformacoes();
                         }
                         catch (LivroNaoEncontradoException ex)
                         {
@@ -68,7 +85,7 @@ class Program
                     break;
 
                 case "3":
-                    Console.Clear();
+                    //Console.Clear();
                     Console.WriteLine("--- Buscar Livro por Autor ---");
                     Console.Write("Autor: ");
                     string autor = Console.ReadLine();
@@ -83,24 +100,45 @@ class Program
                     {
                         foreach (var livro in livros)
                         {
-                            Console.WriteLine($"{livro.Id} | {livro.Titulo} | {livro.Ano}");
+                            livro.ExibirInformacoes();
                         }
                     }
                     break;
 
                 case "4":
-                    Console.Clear();
+                    //Console.Clear();
                     Console.WriteLine("--- Listar Livros Disponíveis (Async) ---");
                     Console.WriteLine("Consultando disponibilidade...");
                     await _repositorioLivro.ListarDisponiveisAsync();
                     break;
 
                 case "5":
-                    await _repositorioLivro.BuscarNaApiAsync();
+                    //Console.Clear();
+                    Console.WriteLine("--- Buscar Livro na API Open Library ---");
+                    Console.Write("Título: ");
+                    string titulo = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(titulo))
+                    {
+                        Console.WriteLine("Inválido.");
+                        return;
+                    }
+
+                    var Livro = await _bibliotecaApiService.BuscarDetalhesApiAsync(titulo);
+                    if (Livro != null)
+                    {
+                        Livro novoLivro = new Livro(_repositorioLivro.QuantidadeLivrosCadastrados()+1, 
+                                                    Livro.Titulo, 
+                                                    Livro.Autor, 
+                                                    Livro.Ano, 
+                                                    Livro.Disponivel);
+                        
+                        _repositorioLivro.Adicionar(novoLivro);
+                    }
                     break;
 
                 case "6":
-                    _repositorioLivro.SalvarAcervo();
+                    //_repositorioLivro.SalvarAcervo();
                     break;
 
                 case "0":

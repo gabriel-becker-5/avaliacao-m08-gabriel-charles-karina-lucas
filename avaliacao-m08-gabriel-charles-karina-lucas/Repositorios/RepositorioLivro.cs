@@ -47,9 +47,14 @@ namespace avaliacao_m08_gabriel_charles_karina_lucas.Repositorios
                 Console.WriteLine("\nLivros Prontos para Empréstimo:");
                 foreach (Livro livro in livrosDisponiveis)
                 {
-                    Console.WriteLine($"ID: {livro.Id} | {livro.Titulo} - Autor: {livro.Autor} - Publicação: {livro.Ano}");
+                    livro.ExibirInformacoes();
                 }
             }
+        }
+
+        public int QuantidadeLivrosCadastrados()
+        {
+                return Livros.Count();
         }
     }
 }
