@@ -10,6 +10,7 @@ namespace avaliacao_m08_gabriel_charles_karina_lucas.Interfaces
 
         List<Livro> ListarTodos();
 
-        Livro BuscarPorAutor(string autor);
+        /*Livro BuscarPorAutor(string autor);*/
+        List<Livro> BuscarPorAutor(string autor);
     }
 }

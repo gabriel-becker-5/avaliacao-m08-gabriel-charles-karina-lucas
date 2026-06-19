@@ -41,21 +41,52 @@ namespace avaliacao_m08_gabriel_charles_karina_lucas.Servicos
             return novoLivro;
         }
 
-        private static void SalvarAcervo()
-        {
-            //_repositorio.SalvarEmJson();
-            Console.WriteLine("Salvo com sucesso!");
-        }
-
-        private static void CarregarAcervoAoIniciar()
+        //  Grava a lista atual do repositório no arquivo JSON
+        public void SalvarAcervo(RepositorioLivro repositorio)
         {
             try
             {
-                //_repositorio.CarregarDeJson();
+                // Converte a lista de livros em texto JSON formatado (bonito de ler)
+                string json = JsonConvert.SerializeObject(repositorio.Livros, Formatting.Indented);
+
+                // Grava o arquivo na pasta do projeto
+                File.WriteAllText("acervo.json", json);
+
+                Console.WriteLine("\nAcervo salvo com sucesso em acervo.json!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao salvar o acervo: {ex.Message}");
+            }
+        }
+
+        //  Tenta ler o arquivo JSON e carregar os livros para a memória ao iniciar
+        public void CarregarAcervoAoIniciar(RepositorioLivro repositorio)
+        {
+            try
+            {
+                // Verifica se o arquivo já existe para não dar erro na primeira execução
+                if (File.Exists("acervo.json"))
+                {
+                    string json = File.ReadAllText("acervo.json");
+
+                    // Converte o texto JSON de volta para uma lista de objetos Livro
+                    var livrosDeserializados = JsonConvert.DeserializeObject<List<Livro>>(json);
+
+                    if (livrosDeserializados != null)
+                    {
+                        repositorio.Livros = livrosDeserializados;
+                        Console.WriteLine("Acervo anterior carregado com sucesso!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Nenhum acervo anterior encontrado. Iniciando sistema vazio.");
+                }
             }
             catch
             {
-                Console.WriteLine("Sem arquivo anterior.");
+                Console.WriteLine("Sem arquivo anterior ou erro ao carregar.");
             }
         }
     }

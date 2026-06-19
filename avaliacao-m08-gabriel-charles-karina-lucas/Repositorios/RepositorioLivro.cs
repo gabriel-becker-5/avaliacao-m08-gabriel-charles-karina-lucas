@@ -1,8 +1,9 @@
 ﻿using avaliacao_m08_gabriel_charles_karina_lucas.Modelos;
+using avaliacao_m08_gabriel_charles_karina_lucas.Interfaces;
 
 namespace avaliacao_m08_gabriel_charles_karina_lucas.Repositorios
 {
-    public class RepositorioLivro
+    public class RepositorioLivro: IRepositorioLivro
     {
         public List<Livro> Livros = new List<Livro>
         {
