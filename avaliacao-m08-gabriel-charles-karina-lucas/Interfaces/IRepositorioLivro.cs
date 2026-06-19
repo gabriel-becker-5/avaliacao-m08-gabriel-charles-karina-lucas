@@ -2,7 +2,7 @@
 
 namespace avaliacao_m08_gabriel_charles_karina_lucas.Interfaces
 {
-    interface IRepositorioLivro
+    public interface IRepositorioLivro
     {
         void Adicionar(Livro livro);
 

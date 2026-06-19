@@ -16,10 +16,19 @@
             Ano = ano;
             Disponivel = disponivel;
         }
+        
+        // Construtor para quando o livro vem da API Open Library
+        public Livro(string titulo, string autor, int ano, bool disponivel)
+        {
+            Titulo = titulo;
+            Autor = autor;
+            Ano = ano;
+            Disponivel = disponivel;
+        }
 
         public void ExibirInformacoes()
         {
-            Console.WriteLine($"ID: {Id} | {Titulo} | {Autor} | Ano: {Ano} | Disponível: {(Disponivel ? "Sim" : "Não")}");
+            Console.WriteLine($"ID: {Id} | Título: {Titulo} | Autor: {Autor} | Ano: {Ano} | Disponível: {(Disponivel ? "Sim" : "Não")}");
         }
     }
 }
