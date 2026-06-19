@@ -10,7 +10,8 @@ class Program
         BibliotecaApiService _bibliotecaApiService = new BibliotecaApiService();
         RepositorioLivro _repositorioLivro = new RepositorioLivro();
 
-        //_repositorioLivro.CarregarAcervoAoIniciar();
+       
+        _bibliotecaApiService.CarregarAcervoAoIniciar(_repositorioLivro);
 
         bool rodando = true;
 
@@ -138,7 +139,8 @@ class Program
                     break;
 
                 case "6":
-                    //_repositorioLivro.SalvarAcervo();
+                   
+                    _bibliotecaApiService.SalvarAcervo(_repositorioLivro);
                     break;
 
                 case "0":
